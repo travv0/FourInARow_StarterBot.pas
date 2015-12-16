@@ -14,20 +14,27 @@ begin
     while not eof(input) do begin
         readln(line);
         if line = '' then begin
-            error:= 'No input found.';
-            continue;
-
-            parsedLine.delimitedText:= line;
-            cmd:= parsedLine[0];
-
-            if parsedLine.count = 0 then begin
-                error:= error + 'Unable to parse command.';
-                continue;
-            end
+            error:= error + 'No input found.' + #10;
+            continue
         end;
 
-        writeln(line);
+        parsedLine.delimitedText:= line;
+
+        if parsedLine.count = 0 then begin
+            error:= error + 'Unable to parse command.' + #10;
+            continue
+        end;
+
+        cmd:= parsedLine[0];
+
+        if cmd = 'exit' then
+            break;
+
+    writeln(line);
+
     end;
+
+    writeln(error);
 
     readln
 end.
