@@ -10,6 +10,7 @@ var
 begin
     parsedLine:= TStringList.Create;
     parsedLine.Delimiter:= #32;
+    error:= '';
 
     while not eof(input) do begin
         readln(line);
