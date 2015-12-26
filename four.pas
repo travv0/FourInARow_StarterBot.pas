@@ -9,7 +9,7 @@ var
 
 begin
 	parsedLine:= TStringList.Create;
-	prsedLine.Delimiter:= #32;
+	parsedLine.Delimiter:= #32;
 	error:= '';
 
 	while not eof(input) do begin
@@ -28,8 +28,18 @@ begin
 
 		cmd:= parsedLine[0];
 
-		if cmd = 'exit' then
-			break;
+		case cmd of
+			'settings':
+				if parsedLine.count = 3 then begin
+					// case trim(parsedLine[1]) of
+					// 	'timebank':
+					// end;
+				end
+				else begin
+					writeln('Wrong number of arguments for command ' + cmd);
+				end;
+			'exit': break;
+		end;
 
 		writeln(line);
 
@@ -37,5 +47,5 @@ begin
 
 	writeln(error);
 
-	readln
+	// readln
 end.
