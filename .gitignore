@@ -50,3 +50,8 @@ Temporary Items
 *.o
 *.err
 *.out
+
+*.swp
+*.swo
+*~
+tags
