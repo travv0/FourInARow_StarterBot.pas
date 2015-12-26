@@ -1,51 +1,72 @@
 program FourInARow;
 
+{$IFDEF FPC}
+	{$MODE DELPHI}
+	{$H+}
+{$ENDIF}
+
 uses
-	Classes;
+	Classes, SysUtils;
+
+type
+	TSettings = record
+		timebank, timePerMove, yourBotId, fieldColumns, fieldRows: integer;
+		playerName1, playerName2, yourBot: string;
+	end;
 
 var
 	line, error, cmd: string;
 	parsedLine: TStringList;
+	settings: TSettings;
 
 begin
 	parsedLine:= TStringList.Create;
-	parsedLine.Delimiter:= #32;
-	error:= '';
 
-	while not eof(input) do begin
-		readln(line);
-		if line = '' then begin
-			error:= error + 'No input found.' + #10;
-			continue
-		end;
+	try
+		parsedLine.Delimiter:= #32;
+		error:= '';
 
-		parsedLine.delimitedText:= line;
+		while not eof(input) do begin
+			readln(line);
+			if line = '' then begin
+				error:= error + 'No input found.' + #10;
+				continue
+			end;
 
-		if parsedLine.count = 0 then begin
-			error:= error + 'Unable to parse command.' + #10;
-			continue
-		end;
+			parsedLine.delimitedText:= line;
 
-		cmd:= parsedLine[0];
+			if parsedLine.count = 0 then begin
+				error:= error + 'Unable to parse command.' + #10;
+				continue
+			end;
 
-		case cmd of
-			'settings':
+			cmd:= parsedLine[0];
+
+			if cmd = 'settings' then begin
 				if parsedLine.count = 3 then begin
-					// case trim(parsedLine[1]) of
-					// 	'timebank':
-					// end;
+					if trim(parsedLine[1]) = 'timebank' then begin
+						settings.timebank:= StrToIntDef(Trim(parsedLine[2]), 0)
+					end
+					else if trim(parsedLine[1]) = 'time_per_move' then begin
+						settings.timePerMove:= StrToIntDef(Trim(parsedLine[2]), 0)
+					end
+					else writeln('Invalid command: ' + parsedLine[1]);
 				end
 				else begin
 					writeln('Wrong number of arguments for command ' + cmd);
 				end;
-			'exit': break;
+			end else if cmd = 'exit' then begin
+				break;
+			end
+			else writeln('Invalid command: ' + cmd);
+
 		end;
 
-		writeln(line);
+		writeln(error);
 
+	finally
+		parsedLine.Free;
 	end;
-
-	writeln(error);
 
 	// readln
 end.
