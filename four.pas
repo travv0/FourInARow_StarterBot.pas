@@ -49,9 +49,6 @@ begin
 	try
 		parsedLine.Delimiter:= #32;
 
-		game.settings.fieldRows:= 0;
-		game.settings.fieldColumns:= 0;
-
 		while not eof(input) do begin
 			readln(line);
 			if line = '' then begin
@@ -137,11 +134,7 @@ begin
 								begin
 									game.fieldArray[colNum][rowNum]:=
 										StrToIntDef(fieldColumnsList[colNum], -1);
-									write(IntToStr(game.fieldArray[colNum][rowNum]));
-									if colNum <> fieldColumnsList.count - 1 then
-										write(' ');
 								end;
-								writeln();
 							end;
 						end
 					end
@@ -176,6 +169,15 @@ begin
 				writeln('your_botid: ' + IntToStr(game.settings.yourBotId));
 				writeln('field_columns: ' + IntToStr(game.settings.fieldColumns));
 				writeln('field_rows: ' + IntToStr(game.settings.fieldRows));
+				writeln('round: ' + IntToStr(game.round));
+				writeln('field: ' + game.field);
+				write('field_array: ');
+				for colNum:= 0 to Length(game.fieldArray) - 1 do begin
+					for rowNum:= 0 to Length(game.fieldArray[colNum]) - 1 do begin
+						write(IntToStr(game.fieldArray[colNum][rowNum]) + ' ')
+					end;
+					write(sLineBreak + '             ');
+				end;
 			end
 
 			else if cmd = 'exit' then begin
