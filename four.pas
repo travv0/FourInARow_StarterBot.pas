@@ -21,11 +21,11 @@ type
 
 procedure Split (const Delimiter: Char; Input: string; const Strings: TStrings);
 begin
-	Assert(Assigned(Strings)) ;
+	Assert(Assigned(Strings));
 	Strings.Clear;
-	Strings.StrictDelimiter := true;
-	Strings.Delimiter := Delimiter;
-	Strings.DelimitedText := Input;
+	Strings.StrictDelimiter:= true;
+	Strings.Delimiter:= Delimiter;
+	Strings.DelimitedText:= Input;
 end;
 
 var
@@ -59,11 +59,13 @@ begin
 			if cmd = 'settings' then begin
 				if parsedLine.count = 3 then begin
 					if trim(parsedLine[1]) = 'timebank' then begin
-						game.settings.timebank:= StrToIntDef(Trim(parsedLine[2]), 0)
+						game.settings.timebank:=
+							StrToIntDef(Trim(parsedLine[2]), 0)
 					end
 
 					else if trim(parsedLine[1]) = 'time_per_move' then begin
-						game.settings.timePerMove:= StrToIntDef(Trim(parsedLine[2]), 0)
+						game.settings.timePerMove:=
+							StrToIntDef(Trim(parsedLine[2]), 0)
 					end
 
 					else if trim(parsedLine[1]) = 'player_names' then begin
@@ -77,15 +79,18 @@ begin
 					end
 
 					else if trim(parsedLine[1]) = 'your_botid' then begin
-						game.settings.yourBotId:= StrToIntDef(Trim(parsedLine[2]), 1)
+						game.settings.yourBotId:=
+							StrToIntDef(Trim(parsedLine[2]), 1)
 					end
 
 					else if trim(parsedLine[1]) = 'field_columns' then begin
-						game.settings.fieldColumns:= StrToIntDef(Trim(parsedLine[2]), 7)
+						game.settings.fieldColumns:=
+							StrToIntDef(Trim(parsedLine[2]), 7)
 					end
 
 					else if trim(parsedLine[1]) = 'field_rows' then begin
-						game.settings.fieldRows:= StrToIntDef(Trim(parsedLine[2]), 6)
+						game.settings.fieldRows:=
+							StrToIntDef(Trim(parsedLine[2]), 6)
 					end
 
 					else writeln('Invalid command: ' + parsedLine[1]);
