@@ -50,6 +50,7 @@ Temporary Items
 *.o
 *.err
 *.out
+*.ppu
 
 *.swp
 *.swo
