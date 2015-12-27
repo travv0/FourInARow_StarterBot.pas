@@ -152,7 +152,8 @@ begin
 			else if cmd = 'action' then begin
 				if parsedLine.count = 3 then begin
 					if trim(parsedLine[1]) = 'move' then begin
-						writeln('place_disc ' + IntToStr(CalcBestColumn(game)))
+						writeln('place_disc ' + IntToStr(CalcBestColumn(game)));
+						flush(Output)
 					end
 
 					else writeln('Invalid command: ' + parsedLine[1]);
