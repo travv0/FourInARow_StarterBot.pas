@@ -1,3 +1,5 @@
+{__main__}
+
 program FourInARow;
 
 {$IFDEF FPC}
