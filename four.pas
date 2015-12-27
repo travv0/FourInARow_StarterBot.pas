@@ -17,6 +17,7 @@ type
 		settings: TSettings;
 		round: integer;
 		field: string;
+		fieldArray: array of array of integer;
 	end;
 
 procedure Split(const Delimiter: Char; Input: string; const Strings: TStrings);
@@ -35,15 +36,21 @@ end;
 
 var
 	line, cmd: string;
-	parsedLine, nameList: TStringList;
+	rowNum, colNum: integer;
+	parsedLine, nameList, fieldRowsList, fieldColumnsList: TStringList;
 	game: TGame;
 
 begin
 	parsedLine:= TStringList.Create;
 	nameList:= TStringList.Create;
+	fieldRowsList:= TStringList.Create;
+	fieldColumnsList:= TStringList.Create;
 
 	try
 		parsedLine.Delimiter:= #32;
+
+		game.settings.fieldRows:= 0;
+		game.settings.fieldColumns:= 0;
 
 		while not eof(input) do begin
 			readln(line);
@@ -90,12 +97,14 @@ begin
 
 					else if trim(parsedLine[1]) = 'field_columns' then begin
 						game.settings.fieldColumns:=
-							StrToIntDef(Trim(parsedLine[2]), 7)
+							StrToIntDef(Trim(parsedLine[2]), 7);
+						SetLength(game.fieldArray, game.settings.fieldColumns, game.settings.fieldRows)
 					end
 
 					else if trim(parsedLine[1]) = 'field_rows' then begin
 						game.settings.fieldRows:=
-							StrToIntDef(Trim(parsedLine[2]), 6)
+							StrToIntDef(Trim(parsedLine[2]), 6);
+						SetLength(game.fieldArray, game.settings.fieldColumns, game.settings.fieldRows)
 					end
 
 					else writeln('Invalid command: ' + parsedLine[1]);
@@ -114,7 +123,26 @@ begin
 						end
 
 						else if trim(parsedLine[2]) = 'field' then begin
-							game.field:= Trim(parsedLine[2])
+							game.field:= Trim(parsedLine[3]);
+
+							fieldRowsList.Delimiter:= ';';
+							fieldRowsList.DelimitedText:= game.field;
+
+							for rowNum:= 0 to fieldRowsList.count - 1 do begin
+								fieldColumnsList.Delimiter:= ',';
+								fieldColumnsList.DelimitedText:=
+									fieldRowsList[rowNum];
+
+								for colNum:= 0 to fieldColumnsList.count - 1 do
+								begin
+									game.fieldArray[colNum][rowNum]:=
+										StrToIntDef(fieldColumnsList[colNum], -1);
+									write(IntToStr(game.fieldArray[colNum][rowNum]));
+									if colNum <> fieldColumnsList.count - 1 then
+										write(' ');
+								end;
+								writeln();
+							end;
 						end
 					end
 
@@ -140,6 +168,16 @@ begin
 				end;
 			end
 
+			else if cmd = 'dump' then begin
+				writeln('timebank: ' + IntToStr(game.settings.timebank));
+				writeln('time_per_move: ' + IntToStr(game.settings.timePerMove));
+				writeln('player_names: ' + game.settings.playerName1 + ',' + game.settings.playerName2);
+				writeln('your_bot: ' + game.settings.yourBot);
+				writeln('your_botid: ' + IntToStr(game.settings.yourBotId));
+				writeln('field_columns: ' + IntToStr(game.settings.fieldColumns));
+				writeln('field_rows: ' + IntToStr(game.settings.fieldRows));
+			end
+
 			else if cmd = 'exit' then begin
 				break;
 			end
@@ -151,6 +189,8 @@ begin
 	finally
 		parsedLine.Free;
 		nameList.Free;
+		fieldRowsList.Free;
+		fieldColumnsList.Free;
 	end;
 
 	// readln
