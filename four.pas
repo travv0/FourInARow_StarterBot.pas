@@ -19,13 +19,18 @@ type
 		field: string;
 	end;
 
-procedure Split (const Delimiter: Char; Input: string; const Strings: TStrings);
+procedure Split(const Delimiter: Char; Input: string; const Strings: TStrings);
 begin
 	Assert(Assigned(Strings));
 	Strings.Clear;
 	Strings.StrictDelimiter:= true;
 	Strings.Delimiter:= Delimiter;
 	Strings.DelimitedText:= Input;
+end;
+
+function CalcBestColumn(game: TGame) : integer;
+begin
+	CalcBestColumn:= Random(game.settings.fieldColumns)
 end;
 
 var
@@ -97,7 +102,7 @@ begin
 				end
 
 				else begin
-					writeln('Wrong number of arguments for command ' + cmd);
+					writeln('Wrong number of arguments for command "' + cmd + '"');
 				end;
 			end
 
@@ -117,21 +122,21 @@ begin
 				end
 
 				else begin
-					writeln('Wrong number of arguments for command ' + cmd)
+					writeln('Wrong number of arguments for command "' + cmd + '"')
 				end;
 			end
 
 			else if cmd = 'action' then begin
 				if parsedLine.count = 3 then begin
 					if trim(parsedLine[1]) = 'move' then begin
-						// AI logic
+						writeln('place_disc ' + IntToStr(CalcBestColumn(game)))
 					end
 
 					else writeln('Invalid command: ' + parsedLine[1]);
 				end
 
 				else begin
-					writeln('Wrong number of arguments for command ' + cmd)
+					writeln('Wrong number of arguments for command "' + cmd + '"')
 				end;
 			end
 
