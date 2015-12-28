@@ -39,6 +39,9 @@ begin
 	try
 		parsedLine.Delimiter:= #32;
 
+		game.settings.fieldColumns:= 0;
+		game.settings.fieldRows:= 0;
+
 		while not eof(input) do begin
 			readln(line);
 			if line = '' then begin
