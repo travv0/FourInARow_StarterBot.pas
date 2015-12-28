@@ -11,6 +11,7 @@ uses
 	Classes, SysUtils;
 
 type
+	TField = array of array of integer;
 	TSettings = record
 		timebank, timePerMove, yourBotId, fieldColumns, fieldRows: integer;
 		playerName1, playerName2, yourBot: string;
@@ -19,7 +20,7 @@ type
 		settings: TSettings;
 		round: integer;
 		field: string;
-		fieldArray: array of array of integer;
+		fieldArray: TField;
 	end;
 
 function CalcBestColumn(game: TGame) : integer;

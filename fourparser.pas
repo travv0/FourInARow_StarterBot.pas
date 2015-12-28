@@ -106,7 +106,7 @@ begin
 				if parsedLine.count = 4 then begin
 					if trim(parsedLine[1]) = 'game' then begin
 						if trim(parsedLine[2]) = 'round' then begin
-							game.round:= StrToIntDef(Trim(parsedLine[2]), 1)
+							game.round:= StrToIntDef(Trim(parsedLine[3]), 1)
 						end
 
 						else if trim(parsedLine[2]) = 'field' then begin
@@ -163,8 +163,8 @@ begin
 				writeln('round: ' + IntToStr(game.round));
 				writeln('field: ' + game.field);
 				write('field_array: ');
-				for colNum:= 0 to Length(game.fieldArray) - 1 do begin
-					for rowNum:= 0 to Length(game.fieldArray[colNum]) - 1 do begin
+				for rowNum:= 0 to game.settings.fieldRows - 1 do begin
+					for colNum:= 0 to game.settings.fieldColumns - 1 do begin
 						write(IntToStr(game.fieldArray[colNum][rowNum]) + ' ')
 					end;
 					write(sLineBreak + '             ');
